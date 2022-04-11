@@ -9,7 +9,8 @@ public enum ScreenType {
 	LOADING(LoadingScreen.class),
 	GAME(GameScreen.class),
 	PREFERENCE(PreferenceScreen.class),
-	INFORMATION(InformationScreen.class);
+	INFORMATION(InformationScreen.class),
+	DIFFICULTY(GameDifficultyScreen.class);
 
 	/** creation of different screen types*/
 

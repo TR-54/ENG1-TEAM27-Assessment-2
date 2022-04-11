@@ -257,5 +257,8 @@ public class Ship extends MovableEntity {
 			this.death();
 		}
 	}
+	public static void changeMaxHealth(float health){
+		maxHealth = health;
+	}
 }
 

@@ -21,6 +21,7 @@ import static net.shipsandgiggles.pirate.conf.Configuration.PIXEL_PER_METER;
 public class AlcuinCollege extends College {
 
     public World world;
+    private static int healthMultiplier;
 
     /** this is the class to control the Alcuin college it is practically the same for each other college*/
 
@@ -86,7 +87,12 @@ public class AlcuinCollege extends College {
             batch.setColor(Color.RED);
         }
 
-        batch.draw(healthBar, this.body.getPosition().x - this.getSkin().getHeight()/2 + 80 ,this.body.getPosition().y + this.getSkin().getWidth()/2 + 20, (float) (this.getSkin().getWidth()/2 * (this.getHealth() /this.getMaximumHealth())), 10);
+        if (healthMultiplier == 1){
+            batch.draw(healthBar, this.body.getPosition().x - this.getSkin().getHeight()/2 + 80 ,this.body.getPosition().y + this.getSkin().getWidth()/2 + 20, (float) (this.getSkin().getWidth()/2 * (this.getHealth() /this.getMaximumHealth())), 10);
+        }
+        else{
+            batch.draw(healthBar, this.body.getPosition().x - this.getSkin().getHeight()/2 + 30 ,this.body.getPosition().y + this.getSkin().getWidth()/2 + 20, (float) (this.getSkin().getWidth()/2 * (this.getHealth() /this.getMaximumHealth()) * healthMultiplier), 10);
+        }
         batch.setColor(Color.WHITE);
         batch.end();
 
@@ -110,5 +116,7 @@ public class AlcuinCollege extends College {
         else this.timer -= Gdx.graphics.getDeltaTime();
     }
 
-
+    public static void setHealth(int health){
+        healthMultiplier = health;
+    }
 }

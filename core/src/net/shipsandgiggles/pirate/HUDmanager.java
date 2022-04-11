@@ -116,7 +116,13 @@ public class HUDmanager {
         /** change colour of healthbar based on health percentage*/
         if(Ship.health > (Ship.maxHealth * 0.49)){
             batch.setColor(Color.GREEN);
-            health.setText("" + healthText.substring(0,6) + " / " + Ship.maxHealth);
+            if (Ship.health < 100f){
+                health.setText("" + healthText.substring(0,5) + " / " + Ship.maxHealth);
+            }
+            else{
+                health.setText("" + healthText.substring(0,6) + " / " + Ship.maxHealth);
+            }
+
         }
         else if(Ship.health > (Ship.maxHealth * 0.25)){
             batch.setColor(Color.ORANGE);

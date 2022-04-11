@@ -144,10 +144,25 @@ public class GameScreen implements Screen {
 		bob.setBehavior(arrives);
 
 		/** set up college*/
-		langwith = new LangwithCollege(collegeSprite, new Location(150f,151f), 200f, world);
-		goodrick = new GoodrickCollege(collegeSprite, new Location(150f,975f), 200f, world);
-		alcuin = new AlcuinCollege(collegeSprite, new Location(1750f,151f), 200f, world);
-		constantine = new ConstantineCollege(collegeSprite, new Location(1750f,975f), 200f, world);
+		if (GameDifficultyScreen.getDifficulty() == 0){
+			langwith = new LangwithCollege(collegeSprite, new Location(150f,151f), 200f, world);
+			goodrick = new GoodrickCollege(collegeSprite, new Location(150f,975f), 200f, world);
+			alcuin = new AlcuinCollege(collegeSprite, new Location(1750f,151f), 200f, world);
+			constantine = new ConstantineCollege(collegeSprite, new Location(1750f,975f), 200f, world);
+		}
+		else if (GameDifficultyScreen.getDifficulty() == 1){
+			langwith = new LangwithCollege(collegeSprite, new Location(150f,151f), 300f, world);
+			goodrick = new GoodrickCollege(collegeSprite, new Location(150f,975f), 300f, world);
+			alcuin = new AlcuinCollege(collegeSprite, new Location(1750f,151f), 300f, world);
+			constantine = new ConstantineCollege(collegeSprite, new Location(1750f,975f), 300f, world);
+		}
+		else{
+			langwith = new LangwithCollege(collegeSprite, new Location(150f,151f), 400f, world);
+			goodrick = new GoodrickCollege(collegeSprite, new Location(150f,975f), 400f, world);
+			alcuin = new AlcuinCollege(collegeSprite, new Location(1750f,151f), 400f, world);
+			constantine = new ConstantineCollege(collegeSprite, new Location(1750f,975f), 400f, world);
+		}
+
 
 		hud = new HUDmanager(batch);
 		deathScreen = new DeathScreen(batch);

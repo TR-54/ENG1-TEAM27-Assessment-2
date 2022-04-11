@@ -49,7 +49,7 @@ public class LoadingScreen implements Screen {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
 				LoadingScreen.soundController.playButtonPress();
-				PirateGame.get().changeScreen(ScreenType.INFORMATION);
+				PirateGame.get().changeScreen(ScreenType.DIFFICULTY);
 			}
 		});
 

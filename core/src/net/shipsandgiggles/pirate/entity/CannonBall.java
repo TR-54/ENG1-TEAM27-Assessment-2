@@ -24,7 +24,7 @@ public class CannonBall {
     public float angle;
     public Sprite cannonBall;
     public float speed = 1.1f;
-    public float damageDelt = 50f;
+    public static float damageDelt = 50f;
     public boolean teleported = false;
     public float finalX = 0;
     public float finalY = 0;
@@ -138,5 +138,9 @@ public class CannonBall {
         GameScreen.add(new Vector2(finalX, finalY));
         this.body.setTransform(10000,10000,0);
         this.teleported = true;
+    }
+
+    public static void setDamage(float dam){
+        damageDelt = dam;
     }
 }

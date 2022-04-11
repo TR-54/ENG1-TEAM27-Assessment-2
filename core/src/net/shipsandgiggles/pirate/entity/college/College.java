@@ -11,7 +11,6 @@ import net.shipsandgiggles.pirate.entity.EntityType;
 import net.shipsandgiggles.pirate.entity.Location;
 import net.shipsandgiggles.pirate.screen.impl.GameScreen;
 
-import java.awt.*;
 import java.util.UUID;
 
 /**
@@ -24,7 +23,7 @@ public abstract class College extends Entity {
 	public Rectangle hitBox;
 	private final College.Type type;
 	public Sprite cannonBallSprite =  new Sprite(new Texture(Gdx.files.internal("models/cannonBall.png")));
-	public float cooldownTimer = 1f;
+	public static float cooldownTimer;
 	public float timer = 0f;
 	public Texture healthBar = new Texture("models/bar.png");
 
@@ -79,5 +78,9 @@ public abstract class College extends Entity {
 		public UUID getId() {
 			return randomId;
 		}
+	}
+
+	public static void setCooldownTimer(float num){
+		cooldownTimer = num;
 	}
 }
