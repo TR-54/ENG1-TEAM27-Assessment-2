@@ -50,7 +50,7 @@ public class Ship extends MovableEntity {
 	private float healSpeed = 30;
 
 	public Ship(Sprite texture, float spawnSpeed, float maxSpeed, float driftFactor, float turnSpeed, Location location, float height, float width, Camera cam) {
-		super(UUID.randomUUID(), texture, location, EntityType.SHIP, 20, spawnSpeed, maxSpeed, height, width); // TODO: Implement health.
+		super(UUID.randomUUID(), texture, location, EntityType.SHIP, 20, spawnSpeed, maxSpeed, height, width);
 		/** constructor*/
 		this.health = this.maxHealth;
 		this.turnDirection = 0;
@@ -111,7 +111,6 @@ public class Ship extends MovableEntity {
 
 	public void burstShoot(World world, Sprite cannonBallSprite, Camera cam, short categoryBits, short maskBit, short groupIndex) { /** creates the burst shot*/
 		float angle = this.getEntityBody().getAngle();
-		System.out.println(Math.toDegrees(angle));
 		BallsManager.createBallAtAngle(world, new Vector2(this.getEntityBody().getPosition().x, this.getEntityBody().getPosition().y), angle, cannonBallSprite, categoryBits, maskBit, groupIndex);
 		BallsManager.createBallAtAngle(world, new Vector2(this.getEntityBody().getPosition().x, this.getEntityBody().getPosition().y), (float)Math.toRadians(Math.toDegrees(angle) -180), cannonBallSprite, categoryBits, maskBit, groupIndex); /** creation at an angle of the ball */
 		this.rapidShot = true; /** sets the rapid ball to true so we can shoot the side balls*/

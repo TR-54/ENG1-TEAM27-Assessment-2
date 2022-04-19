@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import net.shipsandgiggles.pirate.PirateGame;
 import net.shipsandgiggles.pirate.conf.Configuration;
 import net.shipsandgiggles.pirate.entity.CannonBall;
+import net.shipsandgiggles.pirate.entity.EntityAi;
 import net.shipsandgiggles.pirate.entity.Ship;
 import net.shipsandgiggles.pirate.entity.college.College;
 import net.shipsandgiggles.pirate.entity.impl.college.AlcuinCollege;
@@ -66,6 +67,7 @@ public class GameDifficultyScreen implements Screen {
                 GoodrickCollege.setHealth(1);
                 LangwithCollege.setHealth(1);
                 CannonBall.setDamage(50f);
+                EntityAi.setCooldownTimer(2f);
                 LoadingScreen.soundController.playButtonPress();
                 PirateGame.get().changeScreen(ScreenType.INFORMATION);
             }
@@ -84,6 +86,7 @@ public class GameDifficultyScreen implements Screen {
                 LangwithCollege.setHealth(2);
                 CannonBall.setDamage(70f);
                 Ship.changeMaxHealth(150f);
+                EntityAi.setCooldownTimer(1.5f);
                 LoadingScreen.soundController.playButtonPress();
                 PirateGame.get().changeScreen(ScreenType.INFORMATION);
             }
@@ -102,6 +105,7 @@ public class GameDifficultyScreen implements Screen {
                 LangwithCollege.setHealth(2);
                 CannonBall.setDamage(90f);
                 Ship.changeMaxHealth(100f);
+                EntityAi.setCooldownTimer(1f);
                 LoadingScreen.soundController.playButtonPress();
                 PirateGame.get().changeScreen(ScreenType.INFORMATION);
             }

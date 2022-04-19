@@ -5,13 +5,16 @@ import com.badlogic.gdx.ai.steer.Steerable;
 import com.badlogic.gdx.ai.steer.SteeringAcceleration;
 import com.badlogic.gdx.ai.steer.SteeringBehavior;
 import com.badlogic.gdx.ai.utils.Location;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.MassData;
+import com.badlogic.gdx.physics.box2d.*;
+import net.shipsandgiggles.pirate.conf.Configuration;
+import net.shipsandgiggles.pirate.currency.Currency;
 
 import static net.shipsandgiggles.pirate.conf.Configuration.PIXEL_PER_METER;
 
@@ -26,14 +29,27 @@ public class EntityAi implements Steerable<Vector2> {
     float amountOfRotations = 0;
     private boolean independentFacing = false; /**defines if the entity can move in a direction other than the way it faces) */
     float angleToTarget = 0;
+    float maxHealth = 200f;
+    float health;
+    public Texture healthBar = new Texture("models/bar.png");
+    public Rectangle hitBox;
+    public static float cooldownTimer;
+    public float timer = 0f;
+    public float counter = 0;
+    public boolean dead = false;
+    public Sprite cannonBallSprite =  new Sprite(new Texture(Gdx.files.internal("models/cannonBall.png")));
+    public World world;
+
+    Sprite bobsSprite = new Sprite(new Texture(Gdx.files.internal("models/ship2.png")));
 
     SteeringBehavior<Vector2> behavior;
     SteeringAcceleration<Vector2> steeringOutput;
 
 
-    public EntityAi(Body body, float boundingRadius, Sprite texture){
+    public EntityAi(Body body, float boundingRadius, Sprite texture, World world){
         /** creation of the Ai of the enemy */
         this.body = body;
+        //this.body = createEnemy(width, height, isStatic, position);
         this.boundingRadius = boundingRadius;
         this.texture = texture;
 
@@ -55,7 +71,19 @@ public class EntityAi implements Steerable<Vector2> {
 
         this.steeringOutput = new SteeringAcceleration<Vector2>(new Vector2());
         this.body.setUserData(this);
+        FixtureDef fixtureDef = new FixtureDef();
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(((int)bobsSprite.getWidth() / 2f) / PIXEL_PER_METER, ((int)bobsSprite.getHeight() / 2f) / PIXEL_PER_METER);
+        fixtureDef.shape = shape;
+        fixtureDef. density = 1f;
+        fixtureDef.filter.categoryBits = Configuration.Cat_Enemy;
+        body.createFixture(fixtureDef).setUserData(this);
         this.body.setLinearDamping(1f);
+
+        this.health = this.maxHealth;
+        this.world = world;
+
+        this.hitBox = new com.badlogic.gdx.math.Rectangle((int)this.getPosition().x,(int)this.getPosition().y, 200,200);
     }
 
     public EntityAi(Body body, float boundingRadius){
@@ -92,6 +120,7 @@ public class EntityAi implements Steerable<Vector2> {
             applySteering(this.steeringOutput, delta);
 
         }
+        this.hitBox = new com.badlogic.gdx.math.Rectangle((int)this.getPosition().x,(int)this.getPosition().y, 200,200);
         drawEntity(batch);
     }
 
@@ -104,6 +133,20 @@ public class EntityAi implements Steerable<Vector2> {
 
             batch.begin();
             this.getSprite().draw(batch);
+
+            if(this.getHealth() > (this.getMaximumHealth() * 0.51)){
+                batch.setColor(Color.GREEN);
+            }
+            else if(this.getHealth() > (this.getMaximumHealth() * 0.25)){
+                batch.setColor(Color.ORANGE);
+            }
+            else{
+                batch.setColor(Color.RED);
+            }
+
+            batch.draw(healthBar, this.body.getPosition().x - this.getSprite().getWidth()/2 - 20 ,this.body.getPosition().y + this.getSprite().getWidth()/2 + 25, (float) (this.getSprite().getWidth()/2 * (this.getHealth() /this.getMaximumHealth())) * 5, 5);
+
+            batch.setColor(Color.WHITE);
             batch.end();
         }
     }
@@ -164,12 +207,50 @@ public class EntityAi implements Steerable<Vector2> {
         }
     }
 
+    public void shootPlayer(Ship player) {
+        if(this.hitBox.overlaps(player.hitBox) && timer <= 0 && !this.dead) {/** creates shot and shoots*/
+            BallsManager.createBall(this.world, new Vector2(this.getPosition().x, this.getPosition().y), new Vector2(player.getEntityBody().getPosition().x, player.getEntityBody().getPosition().y), cannonBallSprite, Configuration.Cat_Enemy, Configuration.Cat_Player, (short) 0);
+            this.timer = this.cooldownTimer;
+        }
+        else if(timer <= 0) this.timer = 0; /** ensures that there is a cool down between every shot*/
+        else this.timer -= Gdx.graphics.getDeltaTime();
+    }
+
+    public static void setCooldownTimer(float num){
+        cooldownTimer = num;
+    }
+
     public boolean isIndependentFacing () {
         return independentFacing;
     }
 
     public void setIndependentFacing (boolean independentFacing) {
         this.independentFacing = independentFacing;
+    }
+
+    public void takeDamage(float damage){
+        if(this.dead){
+            this.health = 0;
+            return;
+        }
+        this.health -= damage;
+        if(this.health <= 0){
+            this.dead = true;
+        }
+    }
+
+    public boolean isDead(){return this.dead;}
+
+    public void setDead(boolean state){
+        this.dead = state;
+    }
+    
+    public float getHealth(){
+        return this.health;
+    }
+
+    public float getMaximumHealth(){
+        return this.maxHealth;
     }
 
     @Override
@@ -275,6 +356,10 @@ public class EntityAi implements Steerable<Vector2> {
     @Override
     public Vector2 getPosition() {
         return this.body.getPosition();
+    }
+
+    public void setPosition(Vector2 position){
+        this.body.setTransform(position.x, position.y, this.getAngleToTarget());
     }
 
     @Override
