@@ -59,6 +59,9 @@ public class InformationScreen implements Screen {
         Label singularShoot = new Label("Left-Click to singular shoot!", Configuration.SKIN, "big");
         singularShoot.setAlignment(Align.center);
 
+        Label pauseInformation = new Label ("ESC to pause, SPACE to unpause", Configuration.SKIN, "big");
+        pauseInformation.setAlignment(Align.center);
+
         Label collegeInfo1 = new Label("There are two ways to win the game!", Configuration.SKIN, "big");
         Label collegeInfo2 = new Label("taking down a college will give you 5 gold and 3 score a second and if you capture all of them you win!", Configuration.SKIN, "big");
         Label collegeInfo3 = new Label("the other way is to destroy all of them which will give you an instant 500 gold and 250 score!", Configuration.SKIN, "big");
@@ -85,6 +88,8 @@ public class InformationScreen implements Screen {
         this.table.add(burstShoot);
         this.table.row();
         this.table.add(singularShoot);
+        this.table.row();
+        this.table.add(pauseInformation);
         this.table.row();
         this.table.add(Configuration.SPACER_LABEL);
         this.table.row();
