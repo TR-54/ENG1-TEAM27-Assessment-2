@@ -37,6 +37,10 @@ public class GameScreen implements Screen {
 
 	/** main game screen*/
 
+	static final int unpaused = 0;
+	static final int paused = 1;
+	int pauseState;
+
 	public LangwithCollege langwith;
 	public ConstantineCollege constantine;
 	public AlcuinCollege alcuin;
@@ -46,6 +50,7 @@ public class GameScreen implements Screen {
 
 	public static HUDmanager hud;
 	public DeathScreen deathScreen;
+	public PauseScreen pauseScreen;
 
 	public static ArrayList<ExplosionController> Explosions = new ArrayList<ExplosionController>();
 
@@ -162,6 +167,9 @@ public class GameScreen implements Screen {
 
 		hud = new HUDmanager(batch);
 		deathScreen = new DeathScreen(batch);
+		pauseState = unpaused;
+
+		pauseScreen = new PauseScreen(batch);
 	}
 
 
@@ -212,13 +220,18 @@ public class GameScreen implements Screen {
 		/** update all the colleges and entities*/
 		playerShips.draw(batch);
 		langwith.draw(batch);
-		langwith.shootPlayer(playerShips);
 		constantine.draw(batch);
-		constantine.shootPlayer(playerShips);
 		goodrick.draw(batch);
-		goodrick.shootPlayer(playerShips);
 		alcuin.draw(batch);
-		alcuin.shootPlayer(playerShips);
+
+		if (pauseState == unpaused) { //only shoots player if game is unpaused
+
+			//cannon balls will still move during pause but will not pause damage
+			langwith.shootPlayer(playerShips);
+			constantine.shootPlayer(playerShips);
+			goodrick.shootPlayer(playerShips);
+			alcuin.shootPlayer(playerShips);
+		}
 
 		//renderer.render(world, camera.combined.scl(PIXEL_PER_METER));
 		bob.update(deltaTime, batch);
@@ -264,6 +277,11 @@ public class GameScreen implements Screen {
 		batch.setProjectionMatrix(hud.stage.getCamera().combined);
 		hud.stage.draw();
 		hud.updateLabels(batch);
+
+		if (pauseState == paused){
+			//batch.setProjectionMatrix(pauseScreen.stage.getCamera().combined);
+			pauseScreen.stage.draw();
+		}
 	}
 
 	/** updating the explosions*/
@@ -279,14 +297,29 @@ public class GameScreen implements Screen {
 	}
 
 	public void update() {
-		world.step(1 / 60f, 6, 2);
-		updateCamera();
-		inputUpdate();
-		processInput();
-		handleDirft();
-		tmr.setView(camera);
-		batch.setProjectionMatrix(camera.combined);
-		playerShips.updateShots(world, cannonBall, camera, Configuration.Cat_Player, (short)(Configuration.Cat_Enemy | Configuration.Cat_College), (short) 0);
+		if (pauseState == unpaused) {
+			world.step(1 / 60f, 6, 2);
+			updateCamera();
+			inputUpdate();
+			processInput();
+			handleDirft();
+			tmr.setView(camera);
+			batch.setProjectionMatrix(camera.combined);
+			playerShips.updateShots(world, cannonBall, camera, Configuration.Cat_Player, (short)(Configuration.Cat_Enemy | Configuration.Cat_College), (short) 0);
+		}
+
+		if (pauseState == paused){
+
+			updateCamera();
+			tmr.setView(camera);
+			batch.setProjectionMatrix(camera.combined);
+
+
+			/** allow player to unpause**/
+			if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+				pauseState = unpaused;
+			}
+		}
 
 	}
 
@@ -342,6 +375,12 @@ public class GameScreen implements Screen {
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
 			if(camera.zoom > 1)camera.zoom -= 0.02f;
+		}
+
+		/** Press ESC to activate Pause or Unpause**/
+		if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
+			pause();
+
 		}
 
 	}
@@ -411,12 +450,12 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void pause() {
-
+		pauseState = paused;
 	}
 
 	@Override
 	public void resume() {
-
+		pauseState = unpaused;
 	}
 
 	@Override
