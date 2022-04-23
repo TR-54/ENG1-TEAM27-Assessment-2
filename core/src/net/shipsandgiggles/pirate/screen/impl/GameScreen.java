@@ -276,7 +276,9 @@ public class GameScreen implements Screen {
 		}
 		batch.setProjectionMatrix(hud.stage.getCamera().combined);
 		hud.stage.draw();
-		hud.updateLabels(batch);
+		if (pauseState != paused){
+			hud.updateLabels(batch);
+		}
 
 		if (pauseState == paused){
 			//batch.setProjectionMatrix(pauseScreen.stage.getCamera().combined);
