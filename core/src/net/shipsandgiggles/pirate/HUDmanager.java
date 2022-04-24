@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import net.shipsandgiggles.pirate.conf.Configuration;
@@ -92,13 +93,15 @@ public class HUDmanager {
         topLeftTable2.top().left();
 
 
-        Label addHealth = new Label("Q to add 50 to max health (Cost: 100 gold)", Configuration.SKIN, "big");
+        Label addHealth = new Label("Q to add 50hp to max health (Cost: 100 gold)", Configuration.SKIN, "big");
+        addHealth.setAlignment(Align.left);
         Label repair = new Label("E to repair to full health (Cost: 50 gold)", Configuration.SKIN, "big");
+        repair.setAlignment(Align.left);
 
-        topLeftTable2.padTop(70);
-        topLeftTable2.add(addHealth);
+        topLeftTable2.padTop(100);
+        topLeftTable2.add(addHealth).width(200).height(30);
         topLeftTable2.row();
-        topLeftTable2.add(repair);
+        topLeftTable2.add(repair).width(200).height(30);
 
         stage.addActor(topLeftTable2);
 
