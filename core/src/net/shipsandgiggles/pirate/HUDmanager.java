@@ -48,6 +48,8 @@ public class HUDmanager {
     Image goldCoin = new Image(new Texture("models/gold_coin.png"));
     Image burstLogo = new Image(new Texture("models/burst_icon.png"));
     Image shootLogo = new Image(new Texture("models/attack_icon.png"));
+    Image maxhealthUpgradeLogo = new Image(new Texture("models/HealthUp.png"));
+    Image repairLogo = new Image(new Texture("models/Repair.png"));
     Image burstCooldownLogo = new Image(new Texture("models/burst_onCoolDown.png"));
     Stack cooldown = new Stack();
     Table abalities = new Table();
@@ -99,8 +101,10 @@ public class HUDmanager {
         repair.setAlignment(Align.left);
 
         topLeftTable2.padTop(100);
+        topLeftTable2.add(maxhealthUpgradeLogo).width(32).height(30);;
         topLeftTable2.add(addHealth).width(200).height(30);
         topLeftTable2.row();
+        topLeftTable2.add(repairLogo).width(32).height(30);;
         topLeftTable2.add(repair).width(200).height(30);
 
         stage.addActor(topLeftTable2);
