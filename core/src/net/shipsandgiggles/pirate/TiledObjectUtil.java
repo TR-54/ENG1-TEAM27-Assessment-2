@@ -15,7 +15,6 @@ public class TiledObjectUtil {
 
 
 		/** checks for map object*/
-		/**test */
 		for (MapObject object : objects) {
 			if (!(object instanceof PolylineMapObject)) {
 				continue;
