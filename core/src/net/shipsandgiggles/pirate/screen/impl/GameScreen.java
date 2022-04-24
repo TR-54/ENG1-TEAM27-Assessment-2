@@ -18,6 +18,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import net.shipsandgiggles.pirate.*;
 import net.shipsandgiggles.pirate.conf.Configuration;
+import net.shipsandgiggles.pirate.currency.Currency;
 import net.shipsandgiggles.pirate.entity.*;
 import net.shipsandgiggles.pirate.listener.WorldContactListener;
 import net.shipsandgiggles.pirate.entity.impl.college.AlcuinCollege;
@@ -383,6 +384,12 @@ public class GameScreen implements Screen {
 		if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
 			pause();
 
+		}
+		if (Gdx.input.isKeyJustPressed(Input.Keys.Q) && Currency.get().take(Currency.Type.GOLD, 100)){
+			Ship.changeMaxHealth(Ship.getMaxHealth() + 50f);
+		}
+		if (Gdx.input.isKeyJustPressed(Input.Keys.E) && Currency.get().take(Currency.Type.GOLD, 50)){
+			Ship.setHealth(Ship.getMaxHealth());
 		}
 
 	}

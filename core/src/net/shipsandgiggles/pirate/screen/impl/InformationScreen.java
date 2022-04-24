@@ -59,6 +59,9 @@ public class InformationScreen implements Screen {
         Label singularShoot = new Label("Left-Click to singular shoot!", Configuration.SKIN, "big");
         singularShoot.setAlignment(Align.center);
 
+        Label plunderSpending = new Label("Press Q to increase max health and E to repair ship!", Configuration.SKIN, "big");
+        singularShoot.setAlignment(Align.center);
+
         Label pauseInformation = new Label("ESC to pause, SPACE to unpause", Configuration.SKIN, "big");
         pauseInformation.setAlignment(Align.center);
 

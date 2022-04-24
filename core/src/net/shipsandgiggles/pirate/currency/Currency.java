@@ -56,19 +56,15 @@ public class Currency {
 	/**
 	 * @param type      Type of currency you wish to take.
 	 * @param amount    Amount you wish to take.
-	 * @param onSuccess Action to perform if they can afford it.
 	 * @return Whether they can afford the action.
 	 */
-	public boolean take(Type type, int amount, Runnable onSuccess) {
+	public boolean take(Type type, int amount) {
 		int balance = this.balance(type);
 
 		if (this.balance(type) >= amount) {
-			onSuccess.run();
 			this.currencyValues.put(type, balance - amount);
-
 			return true;
 		}
-
 		return false;
 	}
 

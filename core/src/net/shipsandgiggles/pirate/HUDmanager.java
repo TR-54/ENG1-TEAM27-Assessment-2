@@ -73,6 +73,7 @@ public class HUDmanager {
         cooldownTimer = new Label("" + coolDownTimerTime, Configuration.SKIN, "big");
         scoreLabel = new Label("Score: ", Configuration.SKIN, "big");
 
+
         /** order of adding the UI*/
 
         topLeftTable.add(goldCoin);
@@ -83,6 +84,23 @@ public class HUDmanager {
         topLeftTable.add(scoreLabelCounter);
 
         stage.addActor(topLeftTable);
+
+        /**creation of the table for upgrade info*/
+        Table topLeftTable2 = new Table();
+
+        topLeftTable2.setSize(200,Gdx.graphics.getHeight());
+        topLeftTable2.top().left();
+
+
+        Label addHealth = new Label("Q to add 50 to max health (Cost: 100 gold)", Configuration.SKIN, "big");
+        Label repair = new Label("E to repair to full health (Cost: 50 gold)", Configuration.SKIN, "big");
+
+        topLeftTable2.padTop(70);
+        topLeftTable2.add(addHealth);
+        topLeftTable2.row();
+        topLeftTable2.add(repair);
+
+        stage.addActor(topLeftTable2);
 
 
         /** creation of bottom left of the screen*/

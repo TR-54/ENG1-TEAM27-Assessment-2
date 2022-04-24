@@ -259,5 +259,11 @@ public class Ship extends MovableEntity {
 	public static void changeMaxHealth(float health){
 		maxHealth = health;
 	}
+	public static float getMaxHealth(){
+		return maxHealth;
+	}
+	public static void setHealth(float Health){
+		health = Health;
+	}
 }
 
