@@ -87,7 +87,7 @@ public class PowerUp {
                     (randX > 1550 && (randY > 700 || randY < 300)));
             this.hitbox = new Rectangle(randX+5,randY, 32,32);
 
-            //GameScreen.getEnemy().setFrozen(false);
+            GameScreen.getEnemy().setFrozen(false);
         }
         timer += delta;
         freezeTimer += delta;
