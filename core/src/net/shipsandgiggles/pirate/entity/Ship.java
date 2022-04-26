@@ -33,7 +33,7 @@ public class Ship extends MovableEntity {
 	public int numberOfShotsLeft = 3;
 	public int shotsInRapidShot = 3;
 
-	public float shootingCoolDown = 0.6f;
+	public static float shootingCoolDown = 0.6f;
 	public float burstCoolDown = 4f;
 	public float shootingTimer = 0f;
 	public static float burstTimer = 0f;
@@ -286,6 +286,9 @@ public class Ship extends MovableEntity {
 	}
 	public static void setHealth(float Health){
 		health = Health;
+	}
+	public static void setShootingCoolDown(float cooldown){
+		shootingCoolDown = cooldown;
 	}
 }
 

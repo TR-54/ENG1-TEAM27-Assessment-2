@@ -10,12 +10,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import net.shipsandgiggles.pirate.HUDmanager;
+import net.shipsandgiggles.pirate.listener.WorldContactListener;
 import net.shipsandgiggles.pirate.screen.impl.GameScreen;
 
 public class PowerUp {
     Sprite shield = new Sprite(new Texture(Gdx.files.internal("models/Shield.png")));
     Sprite enemyFreeze = new Sprite(new Texture(Gdx.files.internal("models/Freeze.png")));
-    Sprite speedBoost = new Sprite(new Texture(Gdx.files.internal("models/Speed.png")));
+    Sprite rangeBoost = new Sprite(new Texture(Gdx.files.internal("models/Range.png")));
     Sprite damageBoost = new Sprite(new Texture(Gdx.files.internal("models/DamageUp.png")));
     Sprite reduceShootingCooldown = new Sprite(new Texture(Gdx.files.internal("models/SpeedUp.png")));
 
@@ -30,7 +31,6 @@ public class PowerUp {
     int randX = 0;
     int randY = 0;
     Rectangle hitbox;
-    int freezeTimer = 0;
 
     //range from x: 50-1830 y: 50-1010
 
@@ -44,7 +44,7 @@ public class PowerUp {
             randY = (int) Math.floor(Math.random()*(maxY-minY+1)+minY);
         }
         while(  (randX < 300 && (randY > 800 || randY < 300)) ||
-                (randX > 1650 && (randY > 800 || randY < 300)));
+                (randX > 1600 && (randY > 800 || randY < 300)));
 
          this.hitbox = new Rectangle(randX,randY, 32,32);
     }
@@ -63,14 +63,14 @@ public class PowerUp {
                     GameScreen.getEnemy().setBehavior(arrives);
                     GameScreen.getEnemy().setFrozen(true);
                 }
-                if(this.type == Type.SPEEDBOOST){
-
+                if(this.type == Type.RANGEBOOST){
+                    CannonBall.setMaxTimer(1.2f);
                 }
                 if(this.type == Type.DAMAGEBOOST){
-
+                    WorldContactListener.damageMul = 2f;
                 }
                 if(this.type == Type.REDUCESHOOTCOOLDOWN){
-
+                    Ship.setShootingCoolDown(0.3f);
                 }
                 timer = cooldown;
             }else{
@@ -85,12 +85,15 @@ public class PowerUp {
             }
             while(  (randX < 300 && (randY > 800 || randY < 300)) ||
                     (randX > 1550 && (randY > 700 || randY < 300)));
-            this.hitbox = new Rectangle(randX+5,randY, 32,32);
+            this.hitbox = new Rectangle(randX+5,randY+5, 32,32);
 
+            /** setting back all the powerup stats to normal */
             GameScreen.getEnemy().setFrozen(false);
+            CannonBall.setMaxTimer(0.8f);
+            Ship.setShootingCoolDown(0.6f);
+            WorldContactListener.damageMul = 1f;
         }
         timer += delta;
-        freezeTimer += delta;
     }
 
 
@@ -102,8 +105,8 @@ public class PowerUp {
         if(this.type == Type.ENEMYFREEZE){
             batch.draw(enemyFreeze, randX, randY);
         }
-        if(this.type == Type.SPEEDBOOST){
-            batch.draw(speedBoost, randX, randY);
+        if(this.type == Type.RANGEBOOST){
+            batch.draw(rangeBoost, randX, randY);
         }
         if(this.type == Type.DAMAGEBOOST){
             batch.draw(damageBoost, randX, randY);
@@ -125,7 +128,7 @@ public class PowerUp {
     public enum Type{
         SHIELD,
         ENEMYFREEZE,
-        SPEEDBOOST,
+        RANGEBOOST,
         DAMAGEBOOST,
         REDUCESHOOTCOOLDOWN;
     }

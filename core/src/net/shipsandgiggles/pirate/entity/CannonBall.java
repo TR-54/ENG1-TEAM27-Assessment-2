@@ -15,7 +15,8 @@ public class CannonBall {
 
     /** this is the creation and update for each individual ball*/
 
-    public float timer = 0.8f;
+    public float timer;
+    public static float maxTimer = 0.8f;
     public World world;
     public Body body;
     public boolean isDestroyed = false;
@@ -55,6 +56,7 @@ public class CannonBall {
         body.createFixture(fixtureDef).setUserData(this);
         shape.dispose();
         this.body = body;
+        timer = maxTimer;
 
     }
     CannonBall(World world, Sprite cannonBall, int width, int height, Vector2 position, float target, short categoryBits, short maskBit, short groupIndex){ // constructor
@@ -142,5 +144,9 @@ public class CannonBall {
 
     public static void setDamage(float dam){
         damageDelt = dam;
+    }
+
+    public static void setMaxTimer(float time){
+        maxTimer = time;
     }
 }

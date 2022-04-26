@@ -8,6 +8,8 @@ import net.shipsandgiggles.pirate.entity.CannonBall;
 
 public class WorldContactListener implements ContactListener {
 
+    public static float damageMul = 1f;
+
     /** checks for any collides in the game*/
     @Override
     public void beginContact(Contact contact) {
@@ -19,7 +21,7 @@ public class WorldContactListener implements ContactListener {
             CannonBall ball = (CannonBall) fixtureB.getUserData();
             if(fixtureA.getUserData() instanceof College){/** checks if its a college*/
                 College college = (College) fixtureA.getUserData();
-                college.damage(ball.getDamageDelt()); /** applies damage to college*/
+                college.damage(ball.getDamageDelt() * damageMul); /** applies damage to college*/
             }
             if(fixtureA.getUserData() instanceof Ship){/** checks if its a player */
                 Ship ship = (Ship) fixtureA.getUserData();
@@ -27,7 +29,7 @@ public class WorldContactListener implements ContactListener {
             }
             if(fixtureA.getUserData() instanceof EntityAi){
                 EntityAi enemy = (EntityAi) fixtureA.getUserData();
-                enemy.takeDamage(ball.getDamageDelt());
+                enemy.takeDamage(ball.getDamageDelt() * damageMul);
             }
         }
 

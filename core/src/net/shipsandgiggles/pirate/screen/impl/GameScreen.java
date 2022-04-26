@@ -173,11 +173,11 @@ public class GameScreen implements Screen {
 		}
 
 		/** set up powerups*/
-		shield = new PowerUp(PowerUp.Type.SHIELD, 999, world);
-		enemyFreeze = new PowerUp(PowerUp.Type.ENEMYFREEZE, 999, world);
-		speedBoost = new PowerUp(PowerUp.Type.SPEEDBOOST, 999, world);
-		damageBoost = new PowerUp(PowerUp.Type.DAMAGEBOOST, 999, world);
-		reduceShootingCooldown = new PowerUp(PowerUp.Type.REDUCESHOOTCOOLDOWN, 999, world);
+		shield = new PowerUp(PowerUp.Type.SHIELD, 15, world);
+		enemyFreeze = new PowerUp(PowerUp.Type.ENEMYFREEZE, 12, world);
+		speedBoost = new PowerUp(PowerUp.Type.RANGEBOOST, 14, world);
+		damageBoost = new PowerUp(PowerUp.Type.DAMAGEBOOST, 7, world);
+		reduceShootingCooldown = new PowerUp(PowerUp.Type.REDUCESHOOTCOOLDOWN, 13, world);
 
 		hud = new HUDmanager(batch);
 		deathScreen = new DeathScreen(batch);
