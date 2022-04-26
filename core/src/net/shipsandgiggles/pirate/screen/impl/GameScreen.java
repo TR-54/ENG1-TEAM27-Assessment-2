@@ -42,6 +42,12 @@ public class GameScreen implements Screen {
 	static final int paused = 1;
 	int pauseState;
 
+	PowerUp shield;
+	PowerUp enemyFreeze;
+	PowerUp speedBoost;
+	PowerUp damageBoost;
+	PowerUp reduceShootingCooldown;
+
 	public LangwithCollege langwith;
 	public ConstantineCollege constantine;
 	public AlcuinCollege alcuin;
@@ -76,7 +82,8 @@ public class GameScreen implements Screen {
 	public Sprite water;
 	public boolean intro = false;
 	public float zoomedAmount = 0;
-	EntityAi bob, player;
+	static EntityAi bob;
+	EntityAi player;
 	public static int collegesCaptured = 0;
 
 	Sprite cannonBall;
@@ -165,6 +172,12 @@ public class GameScreen implements Screen {
 			constantine = new ConstantineCollege(collegeSprite, new Location(1750f,975f), 400f, world);
 		}
 
+		/** set up powerups*/
+		shield = new PowerUp(PowerUp.Type.SHIELD, 999, world);
+		enemyFreeze = new PowerUp(PowerUp.Type.ENEMYFREEZE, 999, world);
+		speedBoost = new PowerUp(PowerUp.Type.SPEEDBOOST, 999, world);
+		damageBoost = new PowerUp(PowerUp.Type.DAMAGEBOOST, 999, world);
+		reduceShootingCooldown = new PowerUp(PowerUp.Type.REDUCESHOOTCOOLDOWN, 999, world);
 
 		hud = new HUDmanager(batch);
 		deathScreen = new DeathScreen(batch);
@@ -191,7 +204,7 @@ public class GameScreen implements Screen {
 		}
 
 
-		/** does the update methid*/
+		/** does the update method*/
 		update();
 		/** colour creation for background*/
 		Gdx.gl.glClearColor(.98f, .91f, .761f, 1f);
@@ -208,22 +221,18 @@ public class GameScreen implements Screen {
 		playerShips.getSprite().setPosition(playerShips.getEntityBody().getPosition().x * PIXEL_PER_METER - (playerShips.getSkin().getWidth() / 2f), playerShips.getEntityBody().getPosition().y * PIXEL_PER_METER - (playerShips.getSkin().getHeight() / 2f));
 		playerShips.getSprite().setRotation((float) Math.toDegrees(playerShips.getEntityBody().getAngle()));
 
-
-
-
-		//player
-		//batch.draw(playerShips.getSkin(), playerShips.getEntityBody().getPosition().x * PIXEL_PER_METER - (playerShips.getSkin().getWidth() / 2f), playerShips.getEntityBody().getPosition().y * PIXEL_PER_METER - (playerShips.getSkin().getHeight() / 2f));
-		//batch.draw(islandsTextures[0], islands[0].getPosition().x * PixelPerMeter - (islandsTextures[0].getWidth()/2), islands[0].getPosition().y * PixelPerMeter - (islandsTextures[0].getHeight()/2));
-		//enemyShips.draw(batch);
-
-
-
 		/** update all the colleges and entities*/
 		playerShips.draw(batch);
 		langwith.draw(batch);
 		constantine.draw(batch);
 		goodrick.draw(batch);
 		alcuin.draw(batch);
+
+		shield.update(deltaTime, batch, playerShips);
+		enemyFreeze.update(deltaTime, batch, playerShips);
+		speedBoost.update(deltaTime, batch, playerShips);
+		damageBoost.update(deltaTime, batch, playerShips);
+		reduceShootingCooldown.update(deltaTime, batch, playerShips);
 
 		if (pauseState == unpaused) { //only shoots player if game is unpaused
 
@@ -232,11 +241,14 @@ public class GameScreen implements Screen {
 			constantine.shootPlayer(playerShips);
 			goodrick.shootPlayer(playerShips);
 			alcuin.shootPlayer(playerShips);
+			if(bob.getFrozen() == false){
+				bob.shootPlayer(playerShips);
+			}
 		}
 
-		//renderer.render(world, camera.combined.scl(PIXEL_PER_METER));
+		//renderer.render(world, camera.combined.scl(PIXEL_PER_METER));                                             Render hitboxes
 		bob.update(deltaTime, batch);
-		bob.shootPlayer(playerShips);
+
 		if(bob.isDead()){
 			//world.destroyBody(body);
 			bob.setPosition(new Vector2(10000,10000));
@@ -250,6 +262,15 @@ public class GameScreen implements Screen {
 					.setDecelerationRadius(50);
 			bob.setBehavior(arrives);
 			bob.setDead(false);
+		}
+
+		if(bob.getFrozen() == false){
+			Steerable<Vector2> pp = player;
+			Arrive<Vector2> arrives = new Arrive<Vector2>(bob, pp)
+					.setTimeToTarget(0.01f)
+					.setArrivalTolerance(175f)
+					.setDecelerationRadius(50);
+			bob.setBehavior(arrives);
 		}
 
 		/** update for the explosion*/
@@ -455,6 +476,10 @@ public class GameScreen implements Screen {
 		camera.setToOrtho(false, width / 2, height / 2);
 		//viewport.update(width,height, true);
 		//batch.setProjectionMatrix(camera.combined);
+	}
+
+	public static EntityAi getEnemy(){
+		return bob;
 	}
 
 	@Override

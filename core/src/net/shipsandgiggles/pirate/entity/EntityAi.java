@@ -39,6 +39,7 @@ public class EntityAi implements Steerable<Vector2> {
     public boolean dead = false;
     public Sprite cannonBallSprite =  new Sprite(new Texture(Gdx.files.internal("models/cannonBall.png")));
     public World world;
+    public boolean isFrozen;
 
     Sprite bobsSprite = new Sprite(new Texture(Gdx.files.internal("models/ship2.png")));
 
@@ -49,7 +50,6 @@ public class EntityAi implements Steerable<Vector2> {
     public EntityAi(Body body, float boundingRadius, Sprite texture, World world){
         /** creation of the Ai of the enemy */
         this.body = body;
-        //this.body = createEnemy(width, height, isStatic, position);
         this.boundingRadius = boundingRadius;
         this.texture = texture;
 
@@ -214,6 +214,14 @@ public class EntityAi implements Steerable<Vector2> {
         }
         else if(timer <= 0) this.timer = 0; /** ensures that there is a cool down between every shot*/
         else this.timer -= Gdx.graphics.getDeltaTime();
+    }
+
+    public boolean getFrozen(){
+        return isFrozen;
+    }
+
+    public void setFrozen(boolean freeze){
+        isFrozen = freeze;
     }
 
     public static void setCooldownTimer(float num){

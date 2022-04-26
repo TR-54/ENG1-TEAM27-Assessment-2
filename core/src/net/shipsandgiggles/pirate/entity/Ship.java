@@ -37,6 +37,7 @@ public class Ship extends MovableEntity {
 	public float burstCoolDown = 4f;
 	public float shootingTimer = 0f;
 	public static float burstTimer = 0f;
+	public static float shieldTimer = 0f;
 	public World world;
 	public boolean dead = false;
 	public Camera cam;
@@ -46,6 +47,9 @@ public class Ship extends MovableEntity {
 
 	public static float health;
 	public static float maxHealth = 200f;
+	public static float maxShield = 100f;
+	public static float shield;
+	public static boolean activeShield = false;
 	public float timeToRegen = 0;
 	private float healSpeed = 30;
 
@@ -77,6 +81,7 @@ public class Ship extends MovableEntity {
 		shape.dispose();
 		this.hitBox = new Rectangle(location.getX(), location.getY(), texture.getWidth(), texture.getHeight());
 		this.world = GameScreen.world;
+		shield = maxShield;
 	}
 
 	@Override
@@ -180,10 +185,18 @@ public class Ship extends MovableEntity {
 		else {
 			shootingTimer = 0;
 		}
+		shieldTimer -= Gdx.graphics.getDeltaTime();
+		if(shieldTimer < 0){
+			activeShield = false;
+			shield = 100f;
+		}
 
 	}
 
-
+	public static void setShieldStatus(boolean status){
+		activeShield = status;
+		shieldTimer = 10;
+	}
 
 	/** gets the position of the player*/
 	public Vector2 getPosition() {
@@ -250,10 +263,19 @@ public class Ship extends MovableEntity {
 	}
 
 	public void takeDamage(float damage){
-		timeToRegen = 5f;
-		this.health -= damage * 0.8;
-		if(this.health <= 0){
-			this.death();
+		if(!activeShield || shield <= 0){
+			timeToRegen = 5f;
+			this.health -= damage * 0.8;
+			if(this.health <= 0){
+				this.death();
+			}
+		}if(activeShield && shield > 0){
+			if(shield - (damage * 0.8) < 0){
+				this.health -= (damage * 0.8) - shield;
+				shield = 0;
+			}else{
+				shield -= damage * 0.8;
+			}
 		}
 	}
 	public static void changeMaxHealth(float health){

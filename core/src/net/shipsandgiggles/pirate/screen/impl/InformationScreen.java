@@ -94,6 +94,8 @@ public class InformationScreen implements Screen {
         this.table.row();
         this.table.add(Configuration.SPACER_LABEL);
         this.table.row();
+        this.table.add(plunderSpending);
+        this.table.row();
         this.table.add(pauseInformation);
         this.table.row();
         this.table.add(Configuration.SPACER_LABEL);

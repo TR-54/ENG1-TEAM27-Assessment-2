@@ -37,6 +37,7 @@ public class HUDmanager {
     public float coolDownTimerTime;
 
     public Texture healthBar = new Texture("models/bar.png"); /** gets helthbar textures*/
+    public Texture ShieldBar = new Texture("models/ShieldBar.png"); /** gets shieldbar textures*/
 
     /** setting labels and getting other textures*/
     Label scoreLabelCounter;
@@ -45,6 +46,9 @@ public class HUDmanager {
     Label cooldownTimer;
     Label health;
     Label healthLabel;
+    Label shield;
+    Label shieldLabel;
+    public boolean shieldDrawn = false;
     Image goldCoin = new Image(new Texture("models/gold_coin.png"));
     Image burstLogo = new Image(new Texture("models/burst_icon.png"));
     Image shootLogo = new Image(new Texture("models/attack_icon.png"));
@@ -126,6 +130,8 @@ public class HUDmanager {
 
         healthLabel = new Label("Health: ", Configuration.SKIN, "big");
         health = new Label("" + Ship.health + " / " + Ship.maxHealth, Configuration.SKIN, "big");
+        shieldLabel = new Label("Shield: ", Configuration.SKIN, "big");
+        shield = new Label("" + Ship.shield + " / 100.0", Configuration.SKIN, "big");
         /** adds order */
         bottomLeftTable.add(healthLabel);
         bottomLeftTable.add(health);
@@ -137,6 +143,7 @@ public class HUDmanager {
     public void updateLabels(Batch batch){
         coolDownTimerTime = Ship.burstTimer;
         String healthText = " " + Ship.health;
+        String shieldText = " " + Ship.shield;
 
         /** change colour of healthbar based on health percentage*/
         if(Ship.health > (Ship.maxHealth * 0.49)){
@@ -158,9 +165,21 @@ public class HUDmanager {
             health.setText("" + healthText.substring(0,5) + " / " + Ship.maxHealth);
         }
 
+        if (Ship.shield < 100f){
+            if(Ship.shield > 0){
+                shield.setText("" + shieldText.substring(0,5) + " / " + Ship.maxShield);
+            }else{
+                shield.setText("0.0" + " / " + Ship.maxShield);
+            }
+        }
+        else{
+            shield.setText("" + shieldText.substring(0,6) + " / " + Ship.maxShield);
+        }
+
         /** draw health bar*/
         batch.begin();
         batch.draw(healthBar, 0,140,Gdx.graphics.getWidth()/5 * (Ship.health/Ship.maxHealth), 30);
+        addShield(batch);
         batch.end();
 
         batch.setColor(Color.WHITE);
@@ -185,13 +204,27 @@ public class HUDmanager {
         }
 
 
-
-
-
         gold = Currency.get().balance(Currency.Type.GOLD);
         score = Currency.get().balance(Currency.Type.POINTS);
 
         scoreLabelCounter.setText(String.format("%06d", score));
         goldLabel.setText(String.format("%06d", gold));
+    }
+
+    public void addShield(Batch batch){
+        batch.setColor(Color.WHITE);
+        if(Ship.activeShield && !shieldDrawn){
+            bottomLeftTable.add(shieldLabel);
+            bottomLeftTable.add(shield);
+            batch.draw(ShieldBar, 0,140,Gdx.graphics.getWidth()/5 * (Ship.shield/Ship.maxShield), 30);
+            shieldDrawn = true;
+        }
+        if(Ship.activeShield && shieldDrawn){
+            batch.draw(ShieldBar, 0,140,Gdx.graphics.getWidth()/5 * (Ship.shield/Ship.maxShield), 30);
+        }
+        if(!Ship.activeShield && shieldDrawn){
+            bottomLeftTable.removeActor(shieldLabel);
+            bottomLeftTable.removeActor(shield);
+        }
     }
 }
