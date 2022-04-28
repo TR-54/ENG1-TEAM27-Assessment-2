@@ -44,9 +44,11 @@ public class GameScreen implements Screen {
 
 	PowerUp shield;
 	PowerUp enemyFreeze;
-	PowerUp speedBoost;
+	PowerUp rangeBoost;
 	PowerUp damageBoost;
 	PowerUp reduceShootingCooldown;
+
+	public ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
 
 	public LangwithCollege langwith;
 	public ConstantineCollege constantine;
@@ -175,9 +177,14 @@ public class GameScreen implements Screen {
 		/** set up powerups*/
 		shield = new PowerUp(PowerUp.Type.SHIELD, 15, world);
 		enemyFreeze = new PowerUp(PowerUp.Type.ENEMYFREEZE, 12, world);
-		speedBoost = new PowerUp(PowerUp.Type.RANGEBOOST, 14, world);
+		rangeBoost = new PowerUp(PowerUp.Type.RANGEBOOST, 14, world);
 		damageBoost = new PowerUp(PowerUp.Type.DAMAGEBOOST, 7, world);
 		reduceShootingCooldown = new PowerUp(PowerUp.Type.REDUCESHOOTCOOLDOWN, 13, world);
+
+		/** set up obstacles*/
+		for (int i = 0; i < 5; i++){
+			obstacles.add(new Obstacle(playerShips, shield, enemyFreeze, rangeBoost, damageBoost, reduceShootingCooldown));
+		}
 
 		hud = new HUDmanager(batch);
 		deathScreen = new DeathScreen(batch);
@@ -217,6 +224,21 @@ public class GameScreen implements Screen {
 		tmr.render();
 		BallsManager.updateBalls(batch);
 
+		/** check if any obstacles need to be removed*/
+		ArrayList<Obstacle> obstaclesToRemove = new ArrayList<Obstacle>();
+		for (Obstacle obstacle : obstacles){
+			obstacle.update(playerShips, deltaTime);
+			if(obstacle.remove){
+				obstaclesToRemove.add(obstacle);
+			}
+		}
+		obstacles.removeAll(obstaclesToRemove);
+
+		/** render the rest of the obstacles*/
+		for (Obstacle obstacle : obstacles){
+			obstacle.render(batch);
+		}
+
 		/** setting ship position for the sprite of the player ship*/
 		playerShips.getSprite().setPosition(playerShips.getEntityBody().getPosition().x * PIXEL_PER_METER - (playerShips.getSkin().getWidth() / 2f), playerShips.getEntityBody().getPosition().y * PIXEL_PER_METER - (playerShips.getSkin().getHeight() / 2f));
 		playerShips.getSprite().setRotation((float) Math.toDegrees(playerShips.getEntityBody().getAngle()));
@@ -230,7 +252,7 @@ public class GameScreen implements Screen {
 
 		shield.update(deltaTime, batch, playerShips);
 		enemyFreeze.update(deltaTime, batch, playerShips);
-		speedBoost.update(deltaTime, batch, playerShips);
+		rangeBoost.update(deltaTime, batch, playerShips);
 		damageBoost.update(deltaTime, batch, playerShips);
 		reduceShootingCooldown.update(deltaTime, batch, playerShips);
 

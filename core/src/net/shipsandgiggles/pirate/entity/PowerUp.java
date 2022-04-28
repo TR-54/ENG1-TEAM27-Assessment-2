@@ -28,8 +28,8 @@ public class PowerUp {
     int minX = 50;
     int maxY = 1010;
     int minY = 50;
-    int randX = 0;
-    int randY = 0;
+    int randX;
+    int randY;
     Rectangle hitbox;
 
     //range from x: 50-1830 y: 50-1010
