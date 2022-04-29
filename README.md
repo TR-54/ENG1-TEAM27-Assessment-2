@@ -1,6 +1,6 @@
 # Ships and Giggles Website
 
-⛵ Team _Ships and Giggles_ Assessment 1 website. Built using the [tailwindcss](https://tailwindcss.com/) framework.
+⛵ Team _Ships 'n' Giggles_ Assessment 2 website. Built using the [tailwindcss](https://tailwindcss.com/) framework.
 
 ## Edits
 
