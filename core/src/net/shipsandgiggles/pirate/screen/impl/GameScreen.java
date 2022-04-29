@@ -49,6 +49,7 @@ public class GameScreen implements Screen {
 	PowerUp reduceShootingCooldown;
 
 	public ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
+	public Weather weather;
 
 	public LangwithCollege langwith;
 	public ConstantineCollege constantine;
@@ -186,6 +187,8 @@ public class GameScreen implements Screen {
 			obstacles.add(new Obstacle(playerShips, shield, enemyFreeze, rangeBoost, damageBoost, reduceShootingCooldown));
 		}
 
+		weather = new Weather(playerShips);
+
 		hud = new HUDmanager(batch);
 		deathScreen = new DeathScreen(batch);
 		pauseState = unpaused;
@@ -272,7 +275,8 @@ public class GameScreen implements Screen {
 		bob.update(deltaTime, batch);
 
 		if(bob.isDead()){
-			//world.destroyBody(body);
+			Currency.get().give(Currency.Type.POINTS, 50);
+			Currency.get().give(Currency.Type.GOLD, 25);
 			bob.setPosition(new Vector2(10000,10000));
 			Body body = createEnemy((int)bobsSprite.getWidth(), (int)bobsSprite.getHeight(), false, new Vector2(_width / 3f, _height / 6f));
 			bob = new EntityAi(body, 300f, bobsSprite, world);
@@ -298,6 +302,9 @@ public class GameScreen implements Screen {
 		/** update for the explosion*/
 		updateExplosions();
 
+		/** update and render the weaather*/
+		weather.update(playerShips, deltaTime);
+		weather.render(batch);
 
 		/** change of ui incase of victory or death or normal hud*/
 		if(playerShips.dead){

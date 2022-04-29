@@ -162,7 +162,12 @@ public class HUDmanager {
         }
         else{
             batch.setColor(Color.RED);
-            health.setText("" + healthText.substring(0,5) + " / " + Ship.maxHealth);
+            if (Ship.health < 10f){
+                health.setText("" + healthText.substring(0,4) + " / " + Ship.maxHealth);
+            }
+            else{
+                health.setText("" + healthText.substring(0,5) + " / " + Ship.maxHealth);
+            }
         }
 
         if (Ship.shield < 100f){
