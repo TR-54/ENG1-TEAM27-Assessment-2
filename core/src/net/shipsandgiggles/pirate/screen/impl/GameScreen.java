@@ -68,7 +68,7 @@ public class GameScreen implements Screen {
 	public static World world;
 	private final int _height = Gdx.graphics.getHeight();
 	private final int _width = Gdx.graphics.getWidth();
-	private final Ship playerShips;
+	private Ship playerShips;
 	/** camera work*/
 	private final OrthographicCamera camera;
 	private final float Scale = 2;
@@ -258,6 +258,34 @@ public class GameScreen implements Screen {
 		rangeBoost.update(deltaTime, batch, playerShips);
 		damageBoost.update(deltaTime, batch, playerShips);
 		reduceShootingCooldown.update(deltaTime, batch, playerShips);
+
+		if(LoadingScreen.previousGameExists == false){
+			/**if a new game is started everything is reset here**/
+			playerShips.health = 200f;
+			playerShips.shield = 0f;
+			playerShips.setShieldStatus(false);
+			playerShips.rapidShot = false;
+			playerShips.timeBetweenRapidShots = 0.2f;
+			playerShips.rapidShotCoolDown = 0.2f;
+			playerShips.numberOfShotsLeft = 3;
+			playerShips.shotsInRapidShot = 3;
+			playerShips.shootingCoolDown = 0.6f;
+			playerShips.burstCoolDown = 4f;
+			playerShips.shootingTimer = 0f;
+			playerShips.burstTimer = 0f;
+			playerShips.shieldTimer = 0f;
+			playerShips.maxHealth = 200f;
+			playerShips.maxShield = 100f;
+			playerShips.activeShield = false;
+			playerShips.timeToRegen = 0;
+			// playerShips.healSpeed = 30; cant reset heal speed as it is private...
+			Currency.get().take(Currency.Type.GOLD, hud.gold);
+			Currency.get().take(Currency.Type.POINTS, hud.score);
+			playerShips = null;
+			playerShips = new Ship(playerModel, 40000f, 100f, 0.3f, 2f, new Location(_width / 2f, _height / 2f), playerModel.getHeight(), playerModel.getWidth(), camera);
+			LoadingScreen.previousGameExists = true;
+		}
+
 
 		if (pauseState == unpaused) { //only shoots player if game is unpaused
 

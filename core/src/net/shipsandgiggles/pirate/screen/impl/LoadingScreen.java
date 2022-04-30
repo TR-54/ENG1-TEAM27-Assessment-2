@@ -21,6 +21,8 @@ public class LoadingScreen implements Screen {
 
 	/** the main screen */
 
+	public static boolean previousGameExists;
+
 	public static SoundController soundController;
 	private Stage stage;
 	private Table table;
@@ -49,9 +51,22 @@ public class LoadingScreen implements Screen {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
 				LoadingScreen.soundController.playButtonPress();
+				previousGameExists = false;
 				PirateGame.get().changeScreen(ScreenType.DIFFICULTY);
 			}
 		});
+
+		TextButton prevGame = new TextButton("Previous Game", Configuration.SKIN);
+		prevGame.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				LoadingScreen.soundController.playButtonPress();
+				if(previousGameExists == true) {
+					PirateGame.get().changeScreen(ScreenType.DIFFICULTY);
+				}
+			}
+		});
+
 
 		/**Preferences Button */
 		TextButton preferences = new TextButton("Preferences", Configuration.SKIN);
@@ -80,6 +95,8 @@ public class LoadingScreen implements Screen {
 		table.add(newGame).fillX().uniformX();
 		/** Sets default gap between.*/
 		table.row().pad(10, 0, 10, 0);
+		table.add(prevGame).fillX().uniform();
+		table.row();
 		table.add(preferences).fillX().uniformX();
 		table.row();
 		table.add(exit).fillX().uniformX();

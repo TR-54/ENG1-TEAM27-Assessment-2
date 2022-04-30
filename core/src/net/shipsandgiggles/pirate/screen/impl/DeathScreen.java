@@ -4,13 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import net.shipsandgiggles.pirate.HUDmanager;
+import net.shipsandgiggles.pirate.PirateGame;
 import net.shipsandgiggles.pirate.conf.Configuration;
+import net.shipsandgiggles.pirate.screen.ScreenType;
 
 public class DeathScreen {
 
@@ -30,6 +35,7 @@ public class DeathScreen {
         /** construction and setting of the labels*/
         viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), new OrthographicCamera());
         stage = new Stage(viewport, batch);
+        Gdx.input.setInputProcessor(this.stage);
 
         Table endGameTable = new Table();
 
@@ -37,6 +43,19 @@ public class DeathScreen {
         scoreLabel = new Label( "Score : " + score, Configuration.SKIN, "big");
         highscoreLable = new Label("Highscore : " + highscore, Configuration.SKIN, "big");
         gold = new Label( "Final Gold Count : " + Gold, Configuration.SKIN, "big");
+        Label spacer = new Label("", Configuration.SKIN, "big");
+
+
+        TextButton returnToMainMenu = new TextButton("Return to Main Menu", Configuration.SKIN);
+        returnToMainMenu.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                LoadingScreen.previousGameExists = false;
+                LoadingScreen.soundController.playButtonPress();
+                LoadingScreen.soundController.pauseAll();
+                PirateGame.get().changeScreen(ScreenType.LOADING);
+            }
+        });
 
         gameOver.setFontScale(1.5f);
         scoreLabel.setFontScale(0.75f);
@@ -49,6 +68,10 @@ public class DeathScreen {
         endGameTable.add(highscoreLable);
         endGameTable.row();
         endGameTable.add(gold);
+        endGameTable.row();
+        endGameTable.add(spacer);
+        endGameTable.row();
+        endGameTable.add(returnToMainMenu);
 
         endGameTable.setPosition(Gdx.graphics.getWidth()/2 , Gdx.graphics.getHeight()/2 + 100);
 
