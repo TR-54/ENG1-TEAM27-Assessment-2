@@ -68,7 +68,8 @@ public class GameScreen implements Screen {
 	public static World world;
 	private final int _height = Gdx.graphics.getHeight();
 	private final int _width = Gdx.graphics.getWidth();
-	private Ship playerShips;
+	private final Ship playerShips;
+	private Ship newPlayerShips;
 	/** camera work*/
 	private final OrthographicCamera camera;
 	private final float Scale = 2;
@@ -281,8 +282,8 @@ public class GameScreen implements Screen {
 			// playerShips.healSpeed = 30; cant reset heal speed as it is private...
 			Currency.get().take(Currency.Type.GOLD, hud.gold);
 			Currency.get().take(Currency.Type.POINTS, hud.score);
-			playerShips = null;
-			playerShips = new Ship(playerModel, 40000f, 100f, 0.3f, 2f, new Location(_width / 2f, _height / 2f), playerModel.getHeight(), playerModel.getWidth(), camera);
+			newPlayerShips = null;
+			newPlayerShips = new Ship(playerModel, 40000f, 100f, 0.3f, 2f, new Location(_width / 2f, _height / 2f), playerModel.getHeight(), playerModel.getWidth(), camera);
 			LoadingScreen.previousGameExists = true;
 		}
 

@@ -85,7 +85,7 @@ public class PowerUp {
             }
             while(  (randX < 300 && (randY > 800 || randY < 300)) ||
                     (randX > 1550 && (randY > 700 || randY < 300)));
-            this.hitbox = new Rectangle(randX+5,randY+5, 32,32);
+            this.hitbox = new Rectangle(randX,randY, 32,32);
 
             /** setting back all the powerup stats to normal */
             GameScreen.getEnemy().setFrozen(false);

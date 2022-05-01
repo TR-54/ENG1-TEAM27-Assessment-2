@@ -12,7 +12,6 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Obstacle {
     public static final float frame_length = 0.2f;
-    public static final int offset = 4;
     public static final int size = 32;
 
     private static Animation<?> anim = null;
@@ -28,11 +27,11 @@ public class Obstacle {
         do{
             randX = (int) Math.floor(Math.random()*(1530-350+1)+350);
             randY = (int) Math.floor(Math.random()*(710-350+1)+350);
-            this.hitbox = new Rectangle(randX - offset ,randY - offset , 32,32);
+            this.hitbox = new Rectangle(randX ,randY , size,size);
         }
         while(this.hitbox.overlaps(pUp.hitbox) || this.hitbox.overlaps(pUp2.hitbox) || this.hitbox.overlaps(pUp3.hitbox) || this.hitbox.overlaps(pUp4.hitbox) || this.hitbox.overlaps(pUp5.hitbox) || player.hitBox.overlaps(this.hitbox));
 
-        this.position = new Vector2(randX - offset, randY - offset);
+        this.position = new Vector2(randX, randY);
         statetime = 0;
 
 
@@ -44,15 +43,14 @@ public class Obstacle {
     public void update(Ship player, float deltatime){
         statetime += deltatime;
         if(anim.isAnimationFinished(statetime)){
-            if(detectHit(player)){
-                if(!damagedPlayer){
-                    player.takeDamage(20f);
-                    damagedPlayer = true;
-                }
-                remove = true;
-            }else {
-                statetime = 0;
+            statetime = 0;
+        }
+        if(detectHit(player)){
+            if(!damagedPlayer){
+                player.takeDamage(20f);
+                damagedPlayer = true;
             }
+            remove = true;
         }
     }
 

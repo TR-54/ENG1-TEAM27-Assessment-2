@@ -8,13 +8,13 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import net.shipsandgiggles.pirate.currency.Currency;
 
 public class Weather {
 
     Sprite cloud = new Sprite(new Texture(Gdx.files.internal("models/Cloud.png")));
 
     public static final float frame_length = 0.2f;
-    public static final int offset = 4;
     public static final int size = 256;
 
     int maxX = 1830;
@@ -35,7 +35,7 @@ public class Weather {
         do{
             randX = (int) Math.floor(Math.random()*(maxX-minX+1)+minX);
             randY = (int) Math.floor(Math.random()*(maxY-minY+1)+minY);
-            this.hitbox = new Rectangle(randX - offset ,randY - offset , 64,64);
+            this.hitbox = new Rectangle(randX ,randY , 64,64);
         }
         while(player.hitBox.overlaps(this.hitbox));
 
@@ -46,7 +46,7 @@ public class Weather {
         while(  (targetX < 300 && (targetY > 700 || targetY < 300)) ||
                (targetX > 1500 && (targetY > 700 || targetY < 300)));
 
-        this.position = new Vector2(randX - offset, randY - offset);
+        this.position = new Vector2(randX, randY);
         statetime = 0;
 
         if(anim == null){
@@ -61,6 +61,7 @@ public class Weather {
             statetime = 0;
         }
         if(detectHit(player) && damageTimer >= 0.5f){
+            Currency.get().give(Currency.Type.POINTS, 5);
             player.takeDamage(5f);
             damageTimer = 0;
         }
@@ -74,7 +75,7 @@ public class Weather {
         }
         this.position.x = this.position.x + (targetX - this.position.x) * 0.001f;
         this.position.y = this.position.y + (targetY - this.position.y) * 0.001f;
-        this.hitbox = new Rectangle(this.position.x - offset ,this.position.y - offset , 64,64);
+        this.hitbox = new Rectangle(this.position.x ,this.position.y , size,size);
     }
 
     public void render(Batch batch){
