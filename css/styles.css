@@ -35,6 +35,11 @@ ul {
   @apply list-inside list-disc text-lg -space-y-1;
 }
 
+ul.a li {
+  list-style-type: circle;
+  padding-left: 40px;
+}
+
 img {
   @apply outline outline-1 p-1 bg-white outline-zinc-300 hover:outline-zinc-400 transition-all ease-in-out rounded-md outline-offset-1;
 }
