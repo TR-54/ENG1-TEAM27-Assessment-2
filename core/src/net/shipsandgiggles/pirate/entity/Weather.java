@@ -15,7 +15,7 @@ public class Weather {
 
     public static final float frame_length = 0.2f;
     public static final int offset = 4;
-    public static final int size = 64;
+    public static final int size = 256;
 
     int maxX = 1830;
     int minX = 50;
@@ -24,14 +24,12 @@ public class Weather {
     private static Animation<?> anim = null;
     float statetime;
     float damageTimer;
-    public boolean remove = false;
     public float randX;
     public float randY;
     public Vector2 position;
     Rectangle hitbox;
     public float targetY;
     public float targetX;
-    public boolean newTargetSet = false;
 
     public Weather(Ship player){
         do{
@@ -82,7 +80,7 @@ public class Weather {
     public void render(Batch batch){
         batch.begin();
         batch.draw((TextureRegion) anim.getKeyFrame(statetime), this.position.x, this.position.y);
-        batch.draw(cloud, this.position.x, this.position.y + size);
+        batch.draw(cloud, this.position.x, this.position.y + size - 50);
         batch.end();
     }
 
