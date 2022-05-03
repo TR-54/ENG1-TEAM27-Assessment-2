@@ -10,7 +10,9 @@
       type="module"
       src="https://code.jquery.com/jquery-latest.js"
     ></script>
-    <script type="module" src="./js/index.js"></script>
+    <script 
+    type="module" 
+    src="./js/index.js"></script>
   </head>
   <!-- Back to top button -->
   <button onclick="topFunction()" id="topBtn" title="Go to top">
@@ -58,6 +60,9 @@
         <h2>Contents</h2>
         <ul>
           <li>
+            <a class="link" href="#instructions">Instructions</a>
+          </li>
+          <li>
             <a class="link" href="#downloads">Downloads</a>
           </li>
           <li>
@@ -75,58 +80,103 @@
         titles such as <i>Animal Crossing</i> with the action of <i>CoD Dead Ops</i>.</p>
       </div>
 
+      <!-- Instructions -->
+      <div>
+        <h3 id="instructions">Instructions</h3>
+        <p>Use <i>WASD</i> to move. Aim with the mouse and left-click for normal attack,
+          and right-click for a special attack.
+        </p>
+        <p>In the likely event that you take damage, <i>Q</i> and <i>E</i> can be pressed to
+          regain health, but be careful, each repair costs gold.
+        </p>
+        <p>The game has 5 power-ups that spawn around the map for a limited time:</p>
+        <section class="row">
+          <section class="column">
+            <img src="./images/Powerups/Shield.png" style="width:100%">
+            <p class="center-text">Shield (health buffer)
+            </p>
+          </section>
+          <section class="column">
+            <img src="./images/Powerups/DamageUp.png" style="width:100%">
+            <p class="center-text">Damage Boost</p>
+          </section>
+          <section class="column">
+            <img src="./images/Powerups/Freeze.png" style="width:100%">
+            <p class="center-text">Freeze (freeze enemy)</p>
+          </section>
+        </section>
+        <section class="row">
+          <section class="column">
+            <img src="./images/Powerups/Range.png" style="width:100%">
+            <p class="center-text">Range Boost</p>
+          </section>
+          <section class="column">
+            <img src="./images/Powerups/SpeedUp.png" style="width:100%">
+            <p class="center-text">Speed Boost</p>
+          </section>
+        </section>
+        <p>The main objective of the game is to defeat all 4 colleages, while
+          avoiding being sunk by said colleges, or the enemy ships coming to 
+          take you out.
+        </p>
+      </div>
+
       <!-- DOWNLOADS -->
       <div>
         <h3 id="downloads">Downloads</h3>
-        <h4>Assessment 1</h4>
-        <ul>
-          <li>
-            <a class="link" href="./pdfs/Req1.pdf">Req1.pdf </a>
-          </li>
-          <li>
-            <a class="link" href="./pdfs/Arch1.pdf">Arch1.pdf </a>
-          </li>
-          <li>
-            <a class="link" href="./pdfs/Plan1.pdf">Plan1.pdf </a>
-          </li>
-          <li>
-            <a class="link" href="./pdfs/Risk1.pdf">Risk1.pdf </a>
-          </li>
-          <li>
-            <a class="link" href="./pdfs/Impl1.pdf">Impl1.pdf </a>
-          </li>
-        </ul>
-
-        <h4>Assessment 2</h4>
-        <ul>
-          <li>
-            <a class="link" href="./pdfs/Change2.pdf">Change2.pdf </a>
-          </li>
-          <ul class="a">
-            <li>
-              <a class="link" href="./pdfs/Req2.pdf">Req2.pdf </a>
-            </li>
-            <li>
-              <a class="link" href="./pdfs/Arch2.pdf">Arch2.pdf </a>
-            </li>
-            <li>
-              <a class="link" href="./pdfs/Plan2.pdf">Plan2.pdf </a>
-            </li>
-            <li>
-              <a class="link" href="./pdfs/Risk2.pdf">Risk2.pdf </a>
-            </li>
-          </ul>
-          <li>
-            <a class="link" href="./pdfs/Impl2.pdf">Impl2.pdf </a>
-          </li>
-          <li>
-            <a class="link" href="./pdfs/Test2.pdf">Test2.pdf </a>
-          </li>
-          <li>
-            <a class="link" href="./pdfs/CI2.pdf">CI2.pdf </a>
-          </li>
-        </ul>
-
+        <section class="parent">
+          <section class="child">
+            <h4>Assessment 1</h4>
+            <ul>
+              <li>
+                <a class="link" href="./pdfs/Req1.pdf">Req1.pdf </a>
+              </li>
+              <li>
+                <a class="link" href="./pdfs/Arch1.pdf">Arch1.pdf </a>
+              </li>
+              <li>
+                <a class="link" href="./pdfs/Plan1.pdf">Plan1.pdf </a>
+              </li>
+              <li>
+                <a class="link" href="./pdfs/Risk1.pdf">Risk1.pdf </a>
+              </li>
+              <li>
+                <a class="link" href="./pdfs/Impl1.pdf">Impl1.pdf </a>
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h4>Assessment 2</h4>
+            <ul>
+              <li>
+                <a class="link" href="./pdfs/Change2.pdf">Change2.pdf </a>
+              </li>
+              <ul class="a">
+                <li>
+                  <a class="link" href="./pdfs/Req2.pdf">Req2.pdf </a>
+                </li>
+                <li>
+                  <a class="link" href="./pdfs/Arch2.pdf">Arch2.pdf </a>
+                </li>
+                <li>
+                  <a class="link" href="./pdfs/Plan2.pdf">Plan2.pdf </a>
+                </li>
+                <li>
+                  <a class="link" href="./pdfs/Risk2.pdf">Risk2.pdf </a>
+                </li>
+              </ul>
+              <li>
+                <a class="link" href="./pdfs/Impl2.pdf">Impl2.pdf </a>
+              </li>
+              <li>
+                <a class="link" href="./pdfs/Test2.pdf">Test2.pdf </a>
+              </li>
+              <li>
+                <a class="link" href="./pdfs/CI2.pdf">CI2.pdf </a>
+              </li>
+            </ul>
+          </section>
+        </section>
         <!--Buttons for external links-->
         <div class="space-y-3 mt-3 flex flex-col">
           <a class="button-secondary" href="./pdfs/desktop-1.0.jar"
